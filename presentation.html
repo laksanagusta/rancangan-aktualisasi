@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisis Isu Strategis Ditjen P2</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #042f2e;
+            --bg-secondary: #0f766e;
+            --bg-tertiary: rgba(15, 118, 110, 0.4);
+            --text-primary: #f0fdfa;
+            --text-secondary: #99f6e4;
+            --accent: #2dd4bf;
+            --accent-glow: rgba(45, 212, 191, 0.3);
+            --danger: #fb7185;
+            --warning: #fbbf24;
+
+            --font-display: 'Geist', sans-serif;
+            --font-body: 'Geist', sans-serif;
+            --h2-size: clamp(1.4rem, 3vw, 2.5rem);
+            --body-size: clamp(0.9rem, 1.3vw, 1.1rem);
+
+            --space-xxs: 4px;
+            --space-xs: 8px;
+            --space-sm: 12px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --space-2xl: 48px;
+            --space-3xl: 64px;
+            --space-4xl: 96px;
+
+            --slide-padding: clamp(3rem, 5vw, 6rem);
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-normal: 0.8s;
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+        }
+        html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            background: var(--bg-primary);
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 15% 20%, rgba(45, 212, 191, 0.08) 0%, transparent 40%),
+                radial-gradient(ellipse at 85% 80%, rgba(45, 212, 191, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1.5s var(--ease-out-expo);
+        }
+        .slide.visible::before {
+            opacity: 1;
+        }
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-height: 100%;
+            overflow: hidden; 
+            padding: var(--slide-padding);
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        
+        /* === LAYOUTS === */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: var(--space-3xl);
+            margin-top: var(--space-xl);
+            align-items: start;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+            margin-top: var(--space-xl);
+        }
+        .grid-5 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-xl);
+        }
+        
+        /* === CARDS (Executive Summary) === */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border-top: 3px solid var(--accent);
+            padding: var(--space-lg);
+            border-radius: 8px 8px 12px 12px;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo);
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        }
+        .card h3 {
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        .card p {
+            font-size: var(--body-size);
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .card-metric {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: var(--space-sm);
+            font-family: var(--font-display);
+        }
+
+        /* === BULLET SECTIONS === */
+        .section-group {
+            margin-bottom: var(--space-lg);
+        }
+        .section-group:last-child {
+            margin-bottom: 0;
+        }
+        .section-label {
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+        }
+        .section-label::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(45, 212, 191, 0.2);
+        }
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-xs);
+        }
+        .bullet-list li {
+            font-size: var(--body-size);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-left: calc(var(--space-md) + var(--space-xxs));
+            position: relative;
+        }
+        .bullet-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+            top: 1px;
+        }
+
+        /* === HERO STAT === */
+        .hero-stat-box {
+            background: var(--bg-tertiary);
+            padding: var(--space-xl) var(--space-lg);
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: var(--space-lg);
+            border: 1px solid rgba(45, 212, 191, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo);
+        }
+        .hero-stat-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+        .hero-stat {
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: var(--space-md);
+            font-family: var(--font-display);
+        }
+        .hero-label {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* === SECONDARY STAT === */
+        .secondary-stat {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            background: rgba(0,0,0,0.2);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: 8px;
+            margin-bottom: var(--space-lg);
+            border-left: 3px solid var(--danger);
+            transition: transform 0.25s var(--ease-out-expo), background 0.25s var(--ease-out-expo);
+        }
+        .secondary-stat:hover {
+            transform: translateX(4px);
+            background: rgba(0, 0, 0, 0.25);
+        }
+        .secondary-stat .num {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--danger);
+            font-family: var(--font-display);
+            white-space: nowrap;
+        }
+        .secondary-stat .desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* === BADGES === */
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-xs);
+            align-items: center;
+            background: rgba(0,0,0,0.2);
+            padding: var(--space-md) var(--space-lg);
+            border-radius: 8px;
+        }
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: var(--space-xs) var(--space-md);
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s var(--ease-out-expo), box-shadow 0.2s var(--ease-out-expo);
+        }
+        .badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        .badge.apkl {
+            background: rgba(45, 212, 191, 0.15);
+            color: var(--accent);
+            border: 1px solid rgba(45, 212, 191, 0.4);
+        }
+        .badge.agenda {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .badge.label-title {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding-left: 0;
+            opacity: 0.7;
+        }
+
+        /* === TYPOGRAPHY === */
+        h1, h2, h3, h4 { font-family: var(--font-display); }
+        .slide-kicker {
+            font-size: var(--h2-size);
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-primary);
+            margin-bottom: var(--space-sm);
+            max-width: 95%;
+        }
+        .slide-kicker span { color: var(--accent); }
+        .slide-context {
+            display: inline-block;
+            font-size: 0.75rem;
+            color: #042f2e;
+            background: var(--accent);
+            padding: var(--space-xxs) var(--space-sm);
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: var(--space-lg);
+        }
+
+        /* === NAV === */
+        .nav-dots {
+            position: fixed;
+            right: var(--space-2xl);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            z-index: 100;
+        }
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out-expo), transform 0.2s var(--ease-out-expo);
+        }
+        .dot:hover {
+            background: rgba(45, 212, 191, 0.5);
+            transform: scale(1.2);
+        }
+        .dot.active {
+            background: var(--accent);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* === HEADER / FOOTER === */
+        .mc-header {
+            position: absolute;
+            top: var(--slide-padding);
+            right: var(--slide-padding);
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .mc-footer {
+            position: absolute;
+            bottom: var(--slide-padding);
+            left: var(--slide-padding);
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.35);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+        .mc-footer::before {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        /* === ANIMATIONS === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(var(--space-lg));
+            transition: opacity var(--duration-normal) var(--ease-out-expo),
+                        transform var(--duration-normal) var(--ease-out-expo);
+        }
+        .slide.visible .reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal:nth-child(1) { transition-delay: 0.08s; }
+        .reveal:nth-child(2) { transition-delay: 0.16s; }
+        .reveal:nth-child(3) { transition-delay: 0.24s; }
+        .reveal:nth-child(4) { transition-delay: 0.32s; }
+        .reveal:nth-child(5) { transition-delay: 0.40s; }
+        .reveal:nth-child(6) { transition-delay: 0.48s; }
+        .reveal:nth-child(7) { transition-delay: 0.56s; }
+        .reveal:nth-child(8) { transition-delay: 0.64s; }
+        .reveal:nth-child(9) { transition-delay: 0.72s; }
+        .reveal:nth-child(10) { transition-delay: 0.80s; }
+
+        /* Scale Reveal - for cards and boxes */
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.95);
+            transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+        }
+        .slide.visible .reveal-scale {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Fade In Only - for text elements */
+        .reveal-fade {
+            opacity: 0;
+            transition: opacity 0.5s var(--ease-out-expo);
+        }
+        .slide.visible .reveal-fade {
+            opacity: 1;
+        }
+
+        /* Hero Slide Entrance - Dramatic Title */
+        .hero-title {
+            opacity: 0;
+            transform: translateY(var(--space-2xl)) scale(0.98);
+            transition: opacity 1.2s var(--ease-out-expo), transform 1.2s var(--ease-out-expo);
+        }
+        .slide.visible .hero-title {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Stats Count Animation */
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(var(--space-md)); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero-stat {
+            animation: countUp 0.8s var(--ease-out-expo) forwards;
+        }
+
+        /* Background Grid Pattern */
+        .grid-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(45, 212, 191, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(45, 212, 191, 0.02) 1px, transparent 1px);
+            background-size: var(--space-2xl) var(--space-2xl);
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1.5s var(--ease-out-expo);
+        }
+        .slide.visible .grid-bg {
+            opacity: 1;
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 1024px) {
+            .split-layout { grid-template-columns: 1fr; gap: var(--space-2xl); }
+            .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+            .grid-5 { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+        }
+        @media (max-width: 768px) {
+            .mc-header { display: none; }
+            .nav-dots { right: var(--space-md); }
+            .slide-content { padding: var(--space-lg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-dots" id="navDots"></nav>
+
+    <!-- ================================================
+         SLIDE 0: JUDUL
+         ================================================ -->
+     <section class="slide" id="slide-0">
+        <div class="grid-bg"></div>
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <div class="hero-title" style="max-width: 1100px; margin-bottom: var(--space-4xl);">
+                <div class="hero-title" style="background: transparent; color: var(--accent); letter-spacing: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; margin-bottom: var(--space-lg);">Rancangan Aktualisasi — Latsar CPNS</div>
+                <h1 class="hero-title slide-kicker" style="font-size: clamp(1.7rem, 3.2vw, 3.2rem); line-height: 1.25; max-width: 100%;">
+                    PENGEMBANGAN PLATFORM DIGITAL MANAJEMEN RISIKO TERINTEGRASI BERBASIS <span>KECERDASAN BUATAN</span> DAN MODEL CONTEXT PROTOCOL PADA DIREKTORAT JENDERAL PENANGGULANGAN PENYAKIT
+                </h1>
+            </div>
+
+            <div class="hero-title" style="display: flex; flex-wrap: wrap; gap: var(--space-3xl); justify-content: center; width: 100%; max-width: 1000px;">
+                <div class="reveal-scale" style="text-align: center;">
+                    <p style="font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: var(--space-xs);">Peserta</p>
+                    <h3 style="color: #fff; font-size: 1.15rem; margin-bottom: var(--space-xxs);">Dika Laksana Gusta</h3>
+                    <p style="color: var(--accent); font-size: 0.85rem; font-family: monospace; letter-spacing: 1px;">199608102025061003</p>
+                </div>
+                <div class="reveal-scale" style="text-align: center; transition-delay: 0.08s;">
+                    <p style="font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: var(--space-xs);">Mentor</p>
+                    <h3 style="color: #fff; font-size: 1.15rem; margin-bottom: var(--space-xxs);">Indra Jaya, SKM, M.Epid</h3>
+                </div>
+                <div class="reveal-scale" style="text-align: center; transition-delay: 0.16s;">
+                    <p style="font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: var(--space-xs);">Coach</p>
+                    <h3 style="color: #fff; font-size: 1.15rem; margin-bottom: var(--space-xxs);">Dra Nila Arianingsih Apt., MQIH</h3>
+                </div>
+            </div>
+        </div>
+        <div class="reveal mc-footer" style="width: 100%; justify-content: center; left: 0; margin-bottom: var(--space-sm);">Kementerian Kesehatan Republik Indonesia</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 1: PENDAHULUAN & PROFIL ORGANISASI
+         ================================================ -->
+    <section class="slide" id="slide-1">
+        <div class="grid-bg"></div>
+        <span class="mc-header">Pendahuluan</span>
+        <div class="slide-content">
+            <div class="reveal-fade" style="margin-bottom: var(--space-lg);">
+                <div class="slide-context">Bab I — Latar Belakang</div>
+                <h2 class="slide-kicker">Fragmentasi data manajemen risiko menghambat <span>visibilitas pimpinan</span> dalam pengambilan keputusan strategis</h2>
+            </div>
+
+             <div class="split-layout" style="margin-top: 0;">
+                <!-- LEFT: SCR Narrative (concise, action-title bullets) -->
+                <div>
+                    <div class="section-group reveal-scale">
+                        <div class="section-label">Situasi</div>
+                        <ul class="bullet-list">
+                            <li class="reveal">Latsar CPNS → internalisasi <strong>BerAKHLAK</strong> melalui habituasi di unit kerja</li>
+                            <li class="reveal">Lokus: <strong>Ditjen P2</strong> — pemegang mandat ketahanan kesehatan nasional</li>
+                        </ul>
+                    </div>
+
+                    <div class="section-group reveal-scale">
+                        <div class="section-label">Komplikasi</div>
+                        <ul class="bullet-list">
+                            <li class="reveal">Pelaporan insiden: <strong>manual & terfragmentasi</strong> via spreadsheet</li>
+                            <li class="reveal">Tidak ada <strong>jejak audit</strong> maupun <strong>dasbor eksekutif</strong></li>
+                            <li class="reveal">RCA lambat, mitigasi tanpa <strong>indikator peringatan dini</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="section-group reveal-scale">
+                        <div class="section-label">Resolusi</div>
+                        <ul class="bullet-list">
+                            <li class="reveal"><strong>Platform Digital MR Terintegrasi</strong> berbasis AI & MCP</li>
+                            <li class="reveal">Kerangka <strong>ISO 31000:2018</strong> + RBAC isolasi data lintas unit</li>
+                            <li class="reveal">AI + dasbor interaktif → <strong>akuntabilitas real-time</strong></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Single supporting element — Isu Inti only -->
+                <div style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <div class="hero-stat-box reveal-scale" style="border: 1px solid rgba(251, 113, 133, 0.3); background: rgba(251, 113, 133, 0.06); box-shadow: 0 12px 40px rgba(251, 113, 133, 0.1); text-align: left; margin-bottom: var(--space-lg);">
+                        <div class="hero-label reveal-fade" style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.65rem; margin-bottom: var(--space-md); color: var(--danger); font-weight: 700;">⚠️ Isu Inti</div>
+                        <p class="reveal-fade" style="font-size: clamp(1rem, 1.4vw, 1.2rem); color: var(--text-primary); line-height: 1.5; font-weight: 600;">Belum efektifnya penerapan & integrasi manajemen risiko di seluruh unit kerja Ditjen P2</p>
+                        <div class="reveal-fade" style="margin-top: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-sm);">
+                            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                                <span style="color: var(--danger); font-weight: 700; font-size: 0.85rem;">→</span>
+                                <span style="font-size: clamp(0.78rem, 1vw, 0.88rem); color: var(--text-secondary); line-height: 1.4;">Pencatatan risiko tanpa standarisasi</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                                <span style="color: var(--danger); font-weight: 700; font-size: 0.85rem;">→</span>
+                                <span style="font-size: clamp(0.78rem, 1vw, 0.88rem); color: var(--text-secondary); line-height: 1.4;">316 rencana mitigasi tanpa sistem terpadu</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                                <span style="color: var(--danger); font-weight: 700; font-size: 0.85rem;">→</span>
+                                <span style="font-size: clamp(0.78rem, 1vw, 0.88rem); color: var(--text-secondary); line-height: 1.4;">Respons KLB lambat & tidak terkoordinasi</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="reveal-fade" style="font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.6; padding-left: var(--space-xs);">
+                        Landasan: UU 20/2023 · PP 60/2008 · ISO 31000 · Kecerdasan Buatan · MCP
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 2: PROFIL PESERTA & PENUGASAN
+         ================================================ -->
+    <section class="slide" id="slide-2">
+        <div class="grid-bg"></div>
+        <span class="mc-header">Profil Peserta</span>
+        <div class="slide-content">
+            <div class="reveal-fade">
+                <div class="slide-context">Bab II — Profil Peserta</div>
+                <h2 class="slide-kicker">Lima penugasan strategis pimpinan membentuk <span>mandat langsung</span> terhadap transformasi digital manajemen risiko</h2>
+            </div>
+
+             <div class="split-layout" style="grid-template-columns: 0.85fr 1.15fr;">
+                <!-- LEFT: Profile (flowing typography, no card border) -->
+                <div style="display: flex; flex-direction: column; justify-content: center;">
+                    <div class="reveal-scale" style="margin-bottom: var(--space-xl);">
+                        <p class="reveal-fade" style="font-size: clamp(1.3rem, 2vw, 1.7rem); color: var(--text-primary); font-weight: 700; margin-bottom: 0.2rem; line-height: 1.3;">Dika Laksana Gusta</p>
+                        <p class="reveal-fade" style="font-size: clamp(0.78rem, 1vw, 0.88rem); color: var(--accent); margin-bottom: var(--space-lg); font-family: monospace; letter-spacing: 1px;">NIP 199608102025061003</p>
+                        <div class="reveal-fade" style="display: flex; flex-direction: column; gap: 0.5rem; padding-left: 2px;">
+                            <p style="font-size: clamp(0.78rem, 1vw, 0.88rem); color: var(--text-secondary); line-height: 1.4; margin: 0;"><strong style="color: var(--text-primary);">Jabatan</strong> — Pranata Komputer Ahli Pertama</p>
+                            <p style="font-size: clamp(0.78rem, 1vw, 0.88rem); color: var(--text-secondary); line-height: 1.4; margin: 0;"><strong style="color: var(--text-primary);">Unit</strong> — Tim Kerja Manajemen Risiko, RB, dan Monev</p>
+                            <p style="font-size: clamp(0.78rem, 1vw, 0.88rem); color: var(--text-secondary); line-height: 1.4; margin: 0;"><strong style="color: var(--text-primary);">Satker</strong> — Setditjen Penanggulangan Penyakit</p>
+                        </div>
+                    </div>
+
+                    <div class="reveal-fade" style="font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.6; padding-left: 2px;">
+                        Tupoksi: Tata Kelola TI · Infrastruktur TI · Sistem Informasi · Multimedia
+                    </div>
+                </div>
+
+                <!-- RIGHT: 5 Penugasan (consistent accent color) -->
+                <div style="display: flex; flex-direction: column; gap: 0.65rem;">
+                    <div class="secondary-stat reveal-scale" style="border-left-color: var(--accent);">
+                        <div class="num reveal-fade" style="color: var(--accent); font-size: clamp(1.1rem, 1.5vw, 1.4rem); min-width: 2rem; text-align: center;">01</div>
+                        <div class="desc reveal-fade">
+                            <strong style="color: var(--text-primary);">Pengembangan Sistem Informasi Manajemen Risiko</strong><br>
+                            <span style="font-size: 0.8rem;">Penyelesaian pengembangan sistem — <span style="background: rgba(45, 212, 191, 0.15); color: var(--accent); font-weight: 700; padding: 1px 6px; border-radius: 3px; font-size: 0.7rem; letter-spacing: 0.5px;">TARGET 90%</span> mendukung Nilai Maturitas MR</span>
+                        </div>
+                    </div>
+
+                    <div class="secondary-stat reveal-scale" style="border-left-color: var(--accent);">
+                        <div class="num reveal-fade" style="color: var(--accent); font-size: clamp(1.1rem, 1.5vw, 1.4rem); min-width: 2rem; text-align: center;">02</div>
+                        <div class="desc reveal-fade">
+                            <strong style="color: var(--text-primary);">Pengelolaan Data Kinerja & NKA</strong><br>
+                            <span style="font-size: 0.8rem;">Data capaian rincian output Satker UPT lengkap & tepat waktu</span>
+                        </div>
+                    </div>
+
+                    <div class="secondary-stat reveal-scale" style="border-left-color: var(--accent);">
+                        <div class="num reveal-fade" style="color: var(--accent); font-size: clamp(1.1rem, 1.5vw, 1.4rem); min-width: 2rem; text-align: center;">03</div>
+                        <div class="desc reveal-fade">
+                            <strong style="color: var(--text-primary);">Monitoring & Evaluasi Teknologi Kesehatan</strong><br>
+                            <span style="font-size: 0.8rem;">Keselarasan sistem informasi dengan arsitektur SPBE</span>
+                        </div>
+                    </div>
+
+                    <div class="secondary-stat reveal-scale" style="border-left-color: var(--accent);">
+                        <div class="num reveal-fade" style="color: var(--accent); font-size: clamp(1.1rem, 1.5vw, 1.4rem); min-width: 2rem; text-align: center;">04</div>
+                        <div class="desc reveal-fade">
+                            <strong style="color: var(--text-primary);">Desk Akuntabilitas Kinerja (LAKIP & SAKIP)</strong><br>
+                            <span style="font-size: 0.8rem;">Keselarasan perencanaan strategis, eksekusi anggaran & capaian kinerja</span>
+                        </div>
+                    </div>
+
+                    <div class="secondary-stat reveal-scale" style="border-left-color: var(--accent);">
+                        <div class="num reveal-fade" style="color: var(--accent); font-size: clamp(1.1rem, 1.5vw, 1.4rem); min-width: 2rem; text-align: center;">05</div>
+                        <div class="desc reveal-fade">
+                            <strong style="color: var(--text-primary);">Direktif Pimpinan & Inovasi Digital</strong><br>
+                            <span style="font-size: 0.8rem;">Inovasi responsif terhadap kendala operasional — mendukung Indeks Profesionalitas ASN</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 3: IDENTIFIKASI ISU — LANDSCAPE SCAN (APPLE-STYLE)
+         ================================================ -->
+    <section class="slide" id="slide-3">
+        <div class="grid-bg"></div>
+        <span class="mc-header">Identifikasi Isu</span>
+        <div class="slide-content" style="align-items: center; text-align: center; justify-content: center;">
+            <div class="reveal-fade" style="margin-bottom: var(--space-sm);">
+                <div class="slide-context">Bab III — Environmental Scanning</div>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-xl); max-width: 900px;">
+                <h2 style="font-size: clamp(1.6rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.25; color: var(--text-primary); margin: 0;">
+                    Tiga isu strategis teridentifikasi — seluruhnya berakar pada <span style="color: var(--accent); text-shadow: 0 0 60px rgba(45, 212, 191, 0.3);">fragmentasi data dan proses manual</span>
+                </h2>
+            </div>
+
+            <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); max-width: 1050px; width: 100%; text-align: left;">
+                <!-- Core Issue -->
+                <div style="border-left: 3px solid var(--danger); padding-left: var(--space-lg);">
+                    <div style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--danger); margin-bottom: var(--space-sm);">Core Issue</div>
+                    <h3 style="font-size: clamp(0.85rem, 1.1vw, 0.95rem); color: var(--text-primary); font-weight: 600; line-height: 1.45; margin: 0 0 var(--space-md) 0;">Belum efektifnya penerapan &amp; integrasi manajemen risiko</h3>
+                    <ul class="bullet-list" style="margin: 0;">
+                        <li class="reveal" style="font-size: 0.78rem;">Spreadsheet tanpa standarisasi</li>
+                        <li class="reveal" style="font-size: 0.78rem;">Tidak ada jejak audit, KRI, dasbor</li>
+                        <li class="reveal" style="font-size: 0.78rem;">RCA tidak seragam</li>
+                    </ul>
+                </div>
+
+                <!-- Isu Pendukung 1 -->
+                <div style="border-left: 3px solid var(--warning); padding-left: var(--space-lg);">
+                    <div style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--warning); margin-bottom: var(--space-sm);">Isu Pendukung</div>
+                    <h3 style="font-size: clamp(0.85rem, 1.1vw, 0.95rem); color: var(--text-primary); font-weight: 600; line-height: 1.45; margin: 0 0 var(--space-md) 0;">Lambatnya akses dokumen regulasi &amp; panduan operasional</h3>
+                    <ul class="bullet-list" style="margin: 0;">
+                        <li class="reveal" style="font-size: 0.78rem;">Dokumen tersebar: drive, email, WA</li>
+                        <li class="reveal" style="font-size: 0.78rem;">Pencarian non-semantik</li>
+                        <li class="reveal" style="font-size: 0.78rem;">Rujukan kadaluarsa tanpa kontrol versi</li>
+                    </ul>
+                </div>
+
+                <!-- Isu Pendukung 2 -->
+                <div style="border-left: 3px solid var(--warning); padding-left: var(--space-lg);">
+                    <div style="font-size: 0.6rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; color: var(--warning); margin-bottom: var(--space-sm);">Isu Pendukung</div>
+                    <h3 style="font-size: clamp(0.85rem, 1.1vw, 0.95rem); color: var(--text-primary); font-weight: 600; line-height: 1.45; margin: 0 0 var(--space-md) 0;">Tidak efektifnya proses pelaporan perjalanan dinas</h3>
+                    <ul class="bullet-list" style="margin: 0;">
+                        <li class="reveal" style="font-size: 0.78rem;">Input manual berulang per penugasan</li>
+                        <li class="reveal" style="font-size: 0.78rem;">Bukti tersebar tanpa keterkaitan</li>
+                        <li class="reveal" style="font-size: 0.78rem;">Tanpa deteksi kecurangan &amp; analitik</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="hero-title" style="margin-top: var(--space-2xl); max-width: 700px;">
+                <p style="font-size: clamp(0.85rem, 1.1vw, 0.95rem); color: var(--text-primary); font-weight: 500; line-height: 1.5; border-top: 1px solid rgba(45, 212, 191, 0.2); padding-top: var(--space-lg);">
+                    Akar masalah bersama: <span style="color: var(--accent);">data silo</span>, <span style="color: var(--accent);">proses manual</span>, dan <span style="color: var(--accent);">absennya jejak audit</span>
+                </p>
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 4: CORE ISSUE DEEP-DIVE — DATA PENDUKUNG (APPLE-STYLE)
+         ================================================ -->
+    <section class="slide" id="slide-4">
+        <div class="grid-bg"></div>
+        <span class="mc-header">Core Issue</span>
+        <div class="slide-content" style="align-items: center; text-align: center; justify-content: center;">
+            <div class="reveal-fade" style="margin-bottom: var(--space-sm);">
+                <div class="slide-context">Bab III — Data Pendukung</div>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <p style="font-size: clamp(0.85rem, 1.3vw, 1.1rem); color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; max-width: 700px; margin: 0 auto;">IKP gagal target akibat lemahnya pengendalian risiko — CHR Semester II TA 2025</p>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-sm);">
+                <div style="font-size: clamp(5rem, 13vw, 11rem); font-weight: 800; line-height: 0.95; color: var(--danger); text-shadow: 0 0 80px rgba(251, 113, 133, 0.3), 0 0 160px rgba(251, 113, 133, 0.1);">
+                    12<span style="color: var(--text-secondary); font-weight: 300;">/</span>28
+                </div>
+                <p style="font-size: clamp(0.9rem, 1.2vw, 1.05rem); color: var(--text-secondary); margin-top: var(--space-md); max-width: 550px; margin-left: auto; margin-right: auto;">
+                    IKP di bawah target — efektivitas pengendalian perlu dievaluasi segera
+                </p>
+            </div>
+
+            <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); max-width: 900px; width: 100%; margin-top: var(--space-xl);">
+                <div>
+                    <div style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--accent);">316</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Rencana mitigasi<br>dari 113 risiko — dikelola<br>tanpa sistem terpadu</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--danger);">3/15</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Anggota UPRT-1<br>terlatih MR — kapasitas<br>SDM &lt;60% syarat</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--danger);">0</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Program pelatihan<br>atau sertifikasi MR<br>yang dimiliki instansi</div>
+                </div>
+            </div>
+
+            <div class="hero-title" style="margin-top: var(--space-2xl); max-width: 850px;">
+                <div class="reveal-scale" style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xl); text-align: left;">
+                    <div>
+                        <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 700; margin-bottom: var(--space-sm);">Temuan Kritis</div>
+                        <ul class="bullet-list" style="margin: 0;">
+                            <li class="reveal" style="font-size: 0.8rem;">Dokumentasi <strong>hasil mitigasi</strong> belum terkelola</li>
+                            <li class="reveal" style="font-size: 0.8rem;">Ratusan rencana via spreadsheet — <strong>jejak audit hilang</strong></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div style="font-size: 0.65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 700; margin-bottom: var(--space-sm);">Implikasi</div>
+                        <ul class="bullet-list" style="margin: 0;">
+                            <li class="reveal" style="font-size: 0.8rem;">Tidak ada <strong>peringatan dini</strong> (KRI) untuk pimpinan</li>
+                            <li class="reveal" style="font-size: 0.8rem;">Respons KLB menjadi <strong>lambat &amp; tak terkoordinasi</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal-fade" style="margin-top: var(--space-lg); font-size: 0.7rem; color: rgba(255,255,255,0.35);">
+                Sumber: Nota Dinas MR.01.02/C.I/523/2026 · CHR Semester II TA 2025
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 5: DAMPAK STAKEHOLDER — ANALISIS GABC + MEDIA
+         ================================================ -->
+    <section class="slide" id="slide-5">
+        <div class="grid-bg"></div>
+        <span class="mc-header">Analisis Dampak</span>
+        <div class="slide-content">
+            <div class="reveal-fade" style="margin-bottom: var(--space-lg);">
+                <div class="slide-context">Bab III — Dampak Isu</div>
+                <h2 class="slide-kicker">Kegagalan integrasi manajemen risiko berdampak sistemik pada <span>seluruh pemangku kepentingan</span></h2>
+            </div>
+
+            <!-- Row 1: 3 columns -->
+            <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-lg); margin-bottom: var(--space-lg);">
+                <!-- Government -->
+                <div class="card reveal-scale" style="border-top: none; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: var(--space-lg);">
+                    <div class="reveal-fade" style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                        <span style="background: rgba(45, 212, 191, 0.15); color: var(--accent); font-size: 0.6rem; font-weight: 800; padding: var(--space-xxs) var(--space-sm); border-radius: 4px; text-transform: uppercase; letter-spacing: 1.5px;">G</span>
+                        <h3 style="font-size: clamp(0.8rem, 1.1vw, 0.9rem); margin: 0; color: var(--text-primary);">Pemerintah</h3>
+                    </div>
+                    <ul class="bullet-list" style="margin: 0;">
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Ketidakpatuhan PP 60/2008 → temuan BPK & Itjen</li>
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Keputusan strategis tidak berbasis data risiko</li>
+                    </ul>
+                </div>
+
+                <!-- Community -->
+                <div class="card reveal-scale" style="border-top: none; border-left: 3px solid var(--danger); border-radius: 0 8px 8px 0; padding: var(--space-lg);">
+                    <div class="reveal-fade" style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                        <span style="background: rgba(251, 113, 133, 0.15); color: var(--danger); font-size: 0.6rem; font-weight: 800; padding: var(--space-xxs) var(--space-sm); border-radius: 4px; text-transform: uppercase; letter-spacing: 1.5px;">C</span>
+                        <h3 style="font-size: clamp(0.8rem, 1.1vw, 0.9rem); margin: 0; color: var(--text-primary);">Masyarakat</h3>
+                    </div>
+                    <ul class="bullet-list" style="margin: 0;">
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Kegagalan antisipasi KLB & distribusi vaksin</li>
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Komunitas rentan menjadi kelompok paling terdampak</li>
+                    </ul>
+                </div>
+
+                <!-- Business -->
+                <div class="card reveal-scale" style="border-top: none; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: var(--space-lg);">
+                    <div class="reveal-fade" style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                        <span style="background: rgba(45, 212, 191, 0.15); color: var(--accent); font-size: 0.6rem; font-weight: 800; padding: var(--space-xxs) var(--space-sm); border-radius: 4px; text-transform: uppercase; letter-spacing: 1.5px;">B</span>
+                        <h3 style="font-size: clamp(0.8rem, 1.1vw, 0.9rem); margin: 0; color: var(--text-primary);">Badan Usaha</h3>
+                    </div>
+                    <ul class="bullet-list" style="margin: 0;">
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Turunnya kepercayaan mitra farmasi & alkes</li>
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Inefisiensi anggaran dari risiko tak dimitigasi</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Row 2: 2 columns -->
+            <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); margin-bottom: var(--space-lg);">
+                <!-- Academics -->
+                <div class="card reveal-scale" style="border-top: none; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: var(--space-lg);">
+                    <div class="reveal-fade" style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                        <span style="background: rgba(45, 212, 191, 0.15); color: var(--accent); font-size: 0.6rem; font-weight: 800; padding: var(--space-xxs) var(--space-sm); border-radius: 4px; text-transform: uppercase; letter-spacing: 1.5px;">A</span>
+                        <h3 style="font-size: clamp(0.8rem, 1.1vw, 0.9rem); margin: 0; color: var(--text-primary);">Akademisi</h3>
+                    </div>
+                    <ul class="bullet-list" style="margin: 0;">
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Data risiko tidak terstruktur → riset epidemiologi terhambat</li>
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Policy brief & rekomendasi berbasis bukti tidak optimal</li>
+                    </ul>
+                </div>
+
+                <!-- Media -->
+                <div class="card reveal-scale" style="border-top: none; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; padding: var(--space-lg);">
+                    <div class="reveal-fade" style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md);">
+                        <span style="background: rgba(45, 212, 191, 0.15); color: var(--accent); font-size: 0.6rem; font-weight: 800; padding: var(--space-xxs) var(--space-sm); border-radius: 4px; text-transform: uppercase; letter-spacing: 1.5px;">M</span>
+                        <h3 style="font-size: clamp(0.8rem, 1.1vw, 0.9rem); margin: 0; color: var(--text-primary);">Media</h3>
+                    </div>
+                    <ul class="bullet-list" style="margin: 0;">
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Sorotan insiden kesehatan tanpa klarifikasi kredibel</li>
+                        <li class="reveal" style="font-size: clamp(0.72rem, 0.9vw, 0.8rem);">Krisis kepercayaan publik terhadap institusi kesehatan</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Conclusion -->
+            <div class="secondary-stat reveal-scale" style="border-left-color: var(--accent); margin-top: 0;">
+                <div class="desc reveal-fade">
+                    <strong style="color: var(--text-primary);">Kesimpulan:</strong> Kegagalan manajemen risiko bukan sekadar isu administratif — ini adalah <strong style="color: var(--accent);">ancaman langsung terhadap keselamatan masyarakat</strong> dan kredibilitas institusi kesehatan nasional
+                </div>
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 5.1: APPLE-STYLE — EFISIENSI & BIAYA
+         ================================================ -->
+    <section class="slide" id="slide-5-1">
+        <div class="grid-bg"></div>
+        <span class="mc-header">McKinsey Digital Risk</span>
+        <div class="slide-content" style="align-items: center; text-align: center; justify-content: center;">
+            <div class="reveal-fade" style="margin-bottom: var(--space-sm);">
+                <div class="slide-context">Bab III — Justifikasi Solusi</div>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <p style="font-size: clamp(0.85rem, 1.3vw, 1.1rem); color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; max-width: 700px; margin: 0 auto;">Pengurangan biaya operasional melalui otomatisasi proses risiko</p>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-xl);">
+                <div style="font-size: clamp(5rem, 12vw, 10rem); font-weight: 800; line-height: 1; color: var(--accent); text-shadow: 0 0 80px rgba(45, 212, 191, 0.4), 0 0 160px rgba(45, 212, 191, 0.15);">
+                    20–30%
+                </div>
+            </div>
+
+            <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); max-width: 900px; width: 100%;">
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--text-primary);">+20%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Produktivitas FTE<br>dari otomasi &amp; robotika</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--text-primary);">−20%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Biaya IT risiko<br>dari optimalisasi lingkungan data</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--text-primary);">≥15%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Penghematan minimum<br>dikonfirmasi ⅔ responden</div>
+                </div>
+            </div>
+
+            <div class="reveal-fade" style="margin-top: var(--space-2xl); font-size: 0.7rem; color: rgba(255,255,255,0.35);">
+                McKinsey / IIF — "Digital risk: Transforming risk management for the 2020s"
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 5.2: APPLE-STYLE — KECEPATAN KEPUTUSAN
+         ================================================ -->
+    <section class="slide" id="slide-5-2">
+        <div class="grid-bg"></div>
+        <span class="mc-header">McKinsey Digital Risk</span>
+        <div class="slide-content" style="align-items: center; text-align: center; justify-content: center;">
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <p style="font-size: clamp(0.85rem, 1.3vw, 1.1rem); color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; max-width: 700px; margin: 0 auto;">Percepatan waktu pengambilan keputusan risiko</p>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <div style="font-size: clamp(4rem, 10vw, 8rem); font-weight: 800; line-height: 1; color: var(--text-primary);">
+                    2 <span style="font-weight: 300; color: var(--text-secondary); font-size: 0.5em;">minggu</span>
+                    <span style="color: var(--accent); margin: 0 0.2em;">→</span>
+                    <span style="color: var(--accent); text-shadow: 0 0 60px rgba(45, 212, 191, 0.5);">&lt;1</span>
+                    <span style="font-weight: 300; color: var(--text-secondary); font-size: 0.5em;">menit</span>
+                </div>
+            </div>
+
+            <div class="reveal-fade" style="margin-bottom: var(--space-2xl);">
+                <p style="font-size: clamp(0.8rem, 1.1vw, 0.95rem); color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.6;">
+                    Bank Eropa: dari 95% keputusan manual ke 60% <em>straight-through processing.</em> Sepenuhnya <em>paperless</em> dalam 6 bulan.
+                </p>
+            </div>
+
+            <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); max-width: 900px; width: 100%;">
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--accent);">−50%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Waktu keputusan risiko<br>dikonfirmasi 50% manajer</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--accent);">−75%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Beban penyediaan data<br>reuse data internal</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--accent);">−50%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Waktu produksi pelaporan<br>studi kasus bank AS</div>
+                </div>
+            </div>
+
+            <div class="reveal-fade" style="margin-top: var(--space-2xl); font-size: 0.7rem; color: rgba(255,255,255,0.35);">
+                Studi kasus: Bank menengah Eropa &amp; Bank universal AS — McKinsey/IIF 2017
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 5.3: APPLE-STYLE — MITIGASI & KEPATUHAN
+         ================================================ -->
+    <section class="slide" id="slide-5-3">
+        <div class="grid-bg"></div>
+        <span class="mc-header">McKinsey Digital Risk</span>
+        <div class="slide-content" style="align-items: center; text-align: center; justify-content: center;">
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <p style="font-size: clamp(0.85rem, 1.3vw, 1.1rem); color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; max-width: 700px; margin: 0 auto;">Efektivitas mitigasi risiko dan kepatuhan</p>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <div style="font-size: clamp(4.5rem, 11vw, 9rem); font-weight: 800; line-height: 1; color: var(--danger); text-shadow: 0 0 80px rgba(251, 113, 133, 0.3);">
+                    $400M<span style="font-weight: 300; font-size: 0.35em; color: var(--text-secondary); vertical-align: middle;">/tahun</span>
+                </div>
+                <p style="font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-secondary); margin-top: var(--space-md); max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Rata-rata denda kepatuhan tahunan — biaya nyata dari kegagalan sistem manual
+                </p>
+            </div>
+
+            <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-2xl); max-width: 650px; width: 100%; margin-top: var(--space-xl);">
+                <div>
+                    <div style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--accent);">−10%</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Kerugian operasional<br>dari model <em>machine learning</em> yang lebih prediktif</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.8rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--accent);">90%</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Responden melihat<br>peningkatan presisi dari otomasi</div>
+                </div>
+            </div>
+
+            <div class="reveal-fade" style="margin-top: var(--space-2xl); font-size: 0.7rem; color: rgba(255,255,255,0.35);">
+                McKinsey / IIF — "Digital risk: Transforming risk management for the 2020s"
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 5.4: APPLE-STYLE — SKALA DATA & HAMBATAN
+         ================================================ -->
+    <section class="slide" id="slide-5-4">
+        <div class="grid-bg"></div>
+        <span class="mc-header">McKinsey Digital Risk</span>
+        <div class="slide-content" style="align-items: center; text-align: center; justify-content: center;">
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <p style="font-size: clamp(0.85rem, 1.3vw, 1.1rem); color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; max-width: 700px; margin: 0 auto;">Skala data yang tidak mungkin dikelola secara manual</p>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <div style="font-size: clamp(3.5rem, 9vw, 7rem); font-weight: 800; line-height: 1; color: var(--warning); text-shadow: 0 0 80px rgba(251, 191, 36, 0.25);">
+                    2.5 EB<span style="font-weight: 300; font-size: 0.35em; color: var(--text-secondary); vertical-align: middle;">/hari</span>
+                </div>
+                <p style="font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-secondary); margin-top: var(--space-md); max-width: 650px; margin-left: auto; margin-right: auto;">
+                    Volume data global yang dihasilkan setiap hari. Lebih banyak data dihasilkan dalam 2 tahun terakhir dari seluruh sejarah manusia sebelumnya.
+                </p>
+            </div>
+
+            <div class="reveal-scale" style="max-width: 550px; width: 100%; margin-top: var(--space-xl);">
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
+                            <span style="color: var(--text-primary); font-weight: 500;">Legacy IT sebagai hambatan utama</span>
+                            <span style="color: var(--danger); font-weight: 700;">85%</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.06); border-radius: 4px; height: 8px; overflow: hidden;">
+                            <div class="reveal-fade" style="width: 85%; height: 100%; background: linear-gradient(90deg, var(--danger), rgba(251, 113, 133, 0.6)); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
+                            <span style="color: var(--text-primary); font-weight: 500;">Kualitas data buruk</span>
+                            <span style="color: var(--warning); font-weight: 700;">63%</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.06); border-radius: 4px; height: 8px; overflow: hidden;">
+                            <div class="reveal-fade" style="width: 63%; height: 100%; background: linear-gradient(90deg, var(--warning), rgba(251, 191, 36, 0.5)); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; margin-bottom: 5px;">
+                            <span style="color: var(--text-primary); font-weight: 500;">Budaya &amp; talenta</span>
+                            <span style="color: var(--accent); font-weight: 700;">45%</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.06); border-radius: 4px; height: 8px; overflow: hidden;">
+                            <div class="reveal-fade" style="width: 45%; height: 100%; background: linear-gradient(90deg, var(--accent), rgba(45, 212, 191, 0.4)); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <p class="reveal-fade" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-lg); line-height: 1.5; font-style: italic;">
+                    Hambatan #1 &amp; #2 identik dengan kondisi spreadsheet Ditjen P2 — platform terintegrasi langsung mengatasi keduanya.
+                </p>
+            </div>
+
+            <div class="reveal-fade" style="margin-top: var(--space-xl); font-size: 0.7rem; color: rgba(255,255,255,0.35);">
+                McKinsey / IIF Digital Risk Survey — 50+ institusi global
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 5.5: APPLE-STYLE — ROI & KESIMPULAN
+         ================================================ -->
+    <section class="slide" id="slide-5-5">
+        <div class="grid-bg"></div>
+        <span class="mc-header">McKinsey Digital Risk</span>
+        <div class="slide-content" style="align-items: center; text-align: center; justify-content: center;">
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <p style="font-size: clamp(0.85rem, 1.3vw, 1.1rem); color: var(--text-secondary); font-weight: 400; letter-spacing: 0.5px; max-width: 700px; margin: 0 auto;">Return on Investment untuk <em>first-mover</em></p>
+            </div>
+
+            <div class="hero-title" style="margin-bottom: var(--space-lg);">
+                <div style="font-size: clamp(5rem, 13vw, 11rem); font-weight: 800; line-height: 0.95; background: linear-gradient(135deg, var(--accent), #99f6e4, var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 40px rgba(45, 212, 191, 0.3));">
+                    ~450%
+                </div>
+            </div>
+
+            <div class="reveal-fade" style="margin-bottom: var(--space-xl);">
+                <p style="font-size: clamp(0.9rem, 1.2vw, 1.05rem); color: var(--text-secondary); max-width: 650px; margin: 0 auto; line-height: 1.6;">
+                    Institusi yang menjadi pengadopsi pertama mencapai <em>steady-state impact</em> tahunan setara total investasi 3 tahun.
+                </p>
+            </div>
+
+            <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-2xl); max-width: 900px; width: 100%;">
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--accent);">+4%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Potensi peningkatan<br>pendapatan dari model<br>keputusan berbasis risiko</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--text-primary);">84%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Peningkatan kepuasan<br>pengguna &amp; karyawan<br>pasca-otomasi</div>
+                </div>
+                <div>
+                    <div style="font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; color: var(--text-primary);">70%</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: var(--space-xs); line-height: 1.4;">Responden mengharapkan<br>produktivitas lebih tinggi<br>pasca-transformasi</div>
+                </div>
+            </div>
+
+            <div class="hero-title" style="margin-top: var(--space-2xl); max-width: 800px;">
+                <p style="font-size: clamp(0.9rem, 1.2vw, 1.05rem); color: var(--text-primary); font-weight: 600; line-height: 1.5; border-top: 1px solid rgba(45, 212, 191, 0.2); padding-top: var(--space-lg);">
+                    Platform digital — bukan sekadar tren teknologi, melainkan kebutuhan mendesak untuk <span style="color: var(--accent);">efisiensi biaya</span>, <span style="color: var(--accent);">kecepatan layanan</span>, dan <span style="color: var(--accent);">ketepatan mitigasi</span>.
+                </p>
+            </div>
+
+            <div class="reveal-fade" style="margin-top: var(--space-lg); font-size: 0.7rem; color: rgba(255,255,255,0.35);">
+                McKinsey &amp; Company / IIF — "Digital risk: Transforming risk management for the 2020s" (2017)
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 6: PRIORITISASI ISU — ANALISIS USG
+         ================================================ -->
+    <section class="slide" id="slide-6">
+        <div class="grid-bg"></div>
+        <span class="mc-header">Prioritisasi</span>
+        <div class="slide-content">
+            <div class="reveal-fade">
+                <div class="slide-context">Bab III — Penetapan Core Issue</div>
+                <h2 class="slide-kicker">Analisis USG mengkonfirmasi Isu #1 sebagai prioritas tertinggi — <span>satu-satunya isu yang memenuhi seluruh kriteria</span> secara optimal</h2>
+            </div>
+
+             <div class="split-layout" style="grid-template-columns: 1.3fr 0.7fr; margin-top: 1.25rem;">
+                <!-- LEFT: USG Matrix -->
+                <div>
+             <div class="reveal-scale" style="overflow: hidden; border-radius: 8px; border: 1px solid rgba(45, 212, 191, 0.2);">
+                        <table style="width: 100%; border-collapse: collapse; font-size: clamp(0.7rem, 0.95vw, 0.85rem);">
+                            <thead>
+                                <tr style="background: rgba(45, 212, 191, 0.15);">
+                                    <th style="padding: 0.7rem 0.75rem; text-align: left; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.7rem;">Kriteria</th>
+                                    <th style="padding: 0.7rem 0.75rem; text-align: center; color: var(--danger); font-weight: 700; font-size: 0.7rem;">ISU #1</th>
+                                    <th style="padding: 0.7rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.7rem;">ISU #2</th>
+                                    <th style="padding: 0.7rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.7rem;">ISU #3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 0.6rem 0.75rem; color: var(--text-primary); font-weight: 500;">Aktual</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--accent); font-weight: 700; font-size: 0.95rem;">●●●</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.95rem;">●●○</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.95rem;">●●○</td>
+                                </tr>
+                                <tr style="background: rgba(0,0,0,0.15);">
+                                    <td style="padding: 0.6rem 0.75rem; color: var(--text-primary); font-weight: 500;">Problematik</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--accent); font-weight: 700; font-size: 0.95rem;">●●●</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.95rem;">●●○</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.95rem;">●●○</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                    <td style="padding: 0.6rem 0.75rem; color: var(--text-primary); font-weight: 500;">Kekhalayakan</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--accent); font-weight: 700; font-size: 0.95rem;">●●●</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.95rem;">●●●</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.95rem;">●●○</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.15);">
+                                    <td style="padding: 0.6rem 0.75rem; color: var(--text-primary); font-weight: 500;">Layak</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--accent); font-weight: 700; font-size: 0.95rem;">●●●</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.95rem;">●●●</td>
+                                    <td style="padding: 0.6rem 0.75rem; text-align: center; color: var(--text-secondary); font-weight: 700; font-size: 0.95rem;">●●○</td>
+                                </tr>
+                                <tr style="background: rgba(0,0,0,0.15);">
+                                    <td class="score-row" colspan="4">Skor Total</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="section-group reveal-scale" style="margin-top: 1.25rem;">
+                        <div class="section-label">Relevansi Agenda III</div>
+                        <ul class="bullet-list">
+                            <li class="reveal" style="font-size: clamp(0.75rem, 1vw, 0.85rem);"><strong>Manajemen ASN:</strong> Sistem merit, pengembangan kompetensi, dan manajemen kinerja berbasis KRI</li>
+                             <li class="reveal" style="font-size: clamp(0.75rem, 1vw, 0.85rem);"><strong>Smart ASN:</strong> Integritas (jejak audit), profesionalisme (ISO 31000), dan penguasaan IT (AI/SaaS)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Core Issue Declaration -->
+                <div>
+                    <div class="hero-stat-box reveal-scale" style="background: rgba(251, 113, 133, 0.1); border-color: var(--danger); margin-bottom: 1rem;">
+                        <div class="reveal-fade" style="font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--danger); font-weight: 700; margin-bottom: 0.75rem;">Core Issue Terpilih</div>
+                        <p class="reveal-fade" style="font-size: clamp(0.85rem, 1.2vw, 1rem); color: var(--text-primary); line-height: 1.5; font-weight: 600;">Belum Efektifnya Penerapan dan Integrasi Manajemen Risiko di Seluruh Unit Kerja Ditjen P2</p>
+                    </div>
+
+                    <div class="section-group reveal-scale">
+                        <div class="section-label">Mengapa Isu #1?</div>
+                        <ul class="bullet-list">
+                            <li class="reveal" style="font-size: clamp(0.75rem, 1vw, 0.85rem);">Dampak terluas — menyangkut <strong>keselamatan masyarakat</strong></li>
+                            <li class="reveal" style="font-size: clamp(0.75rem, 1vw, 0.85rem);">Dibuktikan oleh <strong>data kuantitatif CHR</strong> resmi</li>
+                            <li class="reveal" style="font-size: clamp(0.75rem, 1vw, 0.85rem);">Selaras dengan <strong>SKP peserta</strong> dan tupoksi Pranata Komputer</li>
+                              <li class="reveal" style="font-size: clamp(0.75rem, 1vw, 0.85rem);">Solvable via kompetensi <strong>Software Engineering + AI</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="tags-container reveal-scale" style="flex-direction: column; align-items: flex-start; gap: 0.5rem; margin-top: 0.75rem;">
+                        <span class="badge label-title reveal-fade" style="padding-left: 0;">Gagasan Penyelesaian:</span>
+                        <div class="reveal-fade" style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+                            <span class="badge apkl reveal-fade">Platform MR Digital</span>
+                            <span class="badge apkl reveal-fade">ISO 31000</span>
+                             <span class="badge agenda reveal-fade">Berbasis Kecerdasan Buatan</span>
+                            <span class="badge agenda reveal-fade">MCP</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 7: GAGASAN KREATIF (5M+1E)
+         ================================================ -->
+    <section class="slide" id="slide-7">
+        <div class="grid-bg"></div>
+        <span class="mc-header">Gagasan Kreatif</span>
+        <div class="slide-content">
+            <div class="reveal-fade" style="margin-bottom: var(--space-xl);">
+                <div class="slide-context">Bab III — Rumusan Gagasan Kreatif</div>
+                <h2 class="slide-kicker">Platform Manajemen Risiko terintegrasi dirancang sebagai solusi komprehensif yang <span>menyasar 6 akar penyebab sekaligus</span> (6M)</h2>
+            </div>
+
+             <div class="grid-3" style="gap: var(--space-lg); margin-top: 0;">
+                <!-- Man -->
+                <div class="card reveal-scale" style="padding: var(--space-lg); background: rgba(0,0,0,0.15); border-top: none; border-left: 3px solid var(--accent);">
+                    <div class="reveal-fade" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
+                        <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">1. Man (SDM)</h3>
+                        <span style="font-size: 1.2rem;">🧑‍💼</span>
+                    </div>
+                    <div class="reveal-fade" style="font-size: clamp(0.7rem, 0.9vw, 0.8rem); color: var(--danger); margin-bottom: var(--space-sm); text-decoration: line-through; opacity: 0.8;">Literasi ISO 31000 rendah & MR dipandang sekadar beban administratif</div>
+                    <div class="reveal-fade" style="font-size: clamp(0.8rem, 1vw, 0.9rem); color: var(--text-primary); font-weight: 500; line-height: 1.5;">Platform intuitif mengubah persepsi dari "kewajiban" menjadi alat navigasi strategis sehari-hari.</div>
+                </div>
+
+                <!-- Method -->
+                <div class="card reveal-scale" style="padding: var(--space-lg); background: rgba(0,0,0,0.15); border-top: none; border-left: 3px solid var(--accent);">
+                    <div class="reveal-fade" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
+                        <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">2. Method (Metode)</h3>
+                        <span style="font-size: 1.2rem;">📋</span>
+                    </div>
+                    <div class="reveal-fade" style="font-size: clamp(0.7rem, 0.9vw, 0.8rem); color: var(--danger); margin-bottom: var(--space-sm); text-decoration: line-through; opacity: 0.8;">Prosedur silo & pelaporan sangat reaktif (menunggu waktu tertentu)</div>
+                    <div class="reveal-fade" style="font-size: clamp(0.8rem, 1vw, 0.9rem); color: var(--text-primary); font-weight: 500; line-height: 1.5;">Standardisasi alur mitigasi <em>end-to-end</em> yang memfasilitasi <em>continuous monitoring</em> proaktif.</div>
+                </div>
+
+                <!-- Machine -->
+                <div class="card reveal-scale" style="padding: var(--space-lg); background: rgba(0,0,0,0.15); border-top: none; border-left: 3px solid var(--accent);">
+                    <div class="reveal-fade" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
+                        <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">3. Machine (Sistem)</h3>
+                        <span style="font-size: 1.2rem;">⚙️</span>
+                    </div>
+                    <div class="reveal-fade" style="font-size: clamp(0.7rem, 0.9vw, 0.8rem); color: var(--danger); margin-bottom: var(--space-sm); text-decoration: line-through; opacity: 0.8;">Spreadsheet rentan error otomatis, tanpa rekam <em>audit trail</em> & visibilitas</div>
+                    <div class="reveal-fade" style="font-size: clamp(0.8rem, 1vw, 0.9rem); color: var(--text-primary); font-weight: 500; line-height: 1.5;">Platform digital sentral dengan <em>early warning alert</em>, jejak audit, & visibilitas pimpinan <em>real-time</em>.</div>
+                </div>
+
+                <!-- Material -->
+                <div class="card reveal-scale" style="padding: var(--space-lg); background: rgba(0,0,0,0.15); border-top: none; border-left: 3px solid var(--accent);">
+                    <div class="reveal-fade" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
+                        <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">4. Material (Data)</h3>
+                        <span style="font-size: 1.2rem;">🗂️</span>
+                    </div>
+                    <div class="reveal-fade" style="font-size: clamp(0.7rem, 0.9vw, 0.8rem); color: var(--danger); margin-bottom: var(--space-sm); text-decoration: line-through; opacity: 0.8;">Data historis berserakan menghapus fondasi <em>baseline</em> analitik.</div>
+                    <div class="reveal-fade" style="font-size: clamp(0.8rem, 1vw, 0.9rem); color: var(--text-primary); font-weight: 500; line-height: 1.5;">Standardisasi struktur (database relasional) terpusat untuk mewujudkan kemampuan <em>predictive risk analytics</em>.</div>
+                </div>
+
+                <!-- Measurement -->
+                <div class="card reveal-scale" style="padding: var(--space-lg); background: rgba(0,0,0,0.15); border-top: none; border-left: 3px solid var(--accent);">
+                    <div class="reveal-fade" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
+                        <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">5. Measurement (Ukuran)</h3>
+                        <span style="font-size: 1.2rem;">📊</span>
+                    </div>
+                    <div class="reveal-fade" style="font-size: clamp(0.7rem, 0.9vw, 0.8rem); color: var(--danger); margin-bottom: var(--space-sm); text-decoration: line-through; opacity: 0.8;">Metrik mitigasi subjektif & terhambat isu validasi silang (cross-validation).</div>
+                    <div class="reveal-fade" style="font-size: clamp(0.8rem, 1vw, 0.9rem); color: var(--text-primary); font-weight: 500; line-height: 1.5;">Konfigurasi matriks objektif (Key Risk Indicators) yang otomatis merekap dan memvalidasi data antar unit.</div>
+                </div>
+
+                <!-- Milieu -->
+                <div class="card reveal-scale" style="padding: var(--space-lg); background: rgba(0,0,0,0.15); border-top: none; border-left: 3px solid var(--accent);">
+                    <div class="reveal-fade" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: var(--space-md);">
+                        <h3 style="font-size: 0.9rem; color: var(--text-secondary); margin: 0;">6. Environment (Lingkungan)</h3>
+                        <span style="font-size: 1.2rem;">🏛️</span>
+                    </div>
+                    <div class="reveal-fade" style="font-size: clamp(0.7rem, 0.9vw, 0.8rem); color: var(--danger); margin-bottom: var(--space-sm); text-decoration: line-through; opacity: 0.8;">Resistensi pada zona nyaman konvensional menghambat budaya <em>risk awareness</em>.</div>
+                    <div class="reveal-fade" style="font-size: clamp(0.8rem, 1vw, 0.9rem); color: var(--text-primary); font-weight: 500; line-height: 1.5;">Internalisasi SOP digital untuk membentuk ekosistem kerja baru yang mengutamakan transparansi & akuntabilitas.</div>
+                </div>
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+    <!-- ================================================
+         SLIDE 8: ROADMAP AKTUALISASI (HIGH-LEVEL)
+         ================================================ -->
+    <section class="slide" id="slide-8">
+        <div class="grid-bg"></div>
+        <span class="mc-header">Roadmap Kegiatan</span>
+        <div class="slide-content">
+            <div class="reveal-fade" style="margin-bottom: var(--space-2xl);">
+                <div class="slide-context">Bab III — Rencana & Tahapan</div>
+                <h2 class="slide-kicker">Kerja sama taktis 30 Hari: Transformasi diselesaikan melalui <span>lima fase operasional</span> (End-to-End Lifecycle)</h2>
+            </div>
+
+             <div class="reveal-scale" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg); margin-top: 0;">
+
+                <div class="secondary-stat reveal-scale" style="border-left-width: 4px; border-left-color: rgba(45, 212, 191, 0.3); background: rgba(45, 212, 191, 0.03); padding: var(--space-md) var(--space-lg); transition-delay: 0.08s; position: relative;">
+                    <div class="reveal-fade" style="position: absolute; right: var(--space-lg); top: var(--space-md); opacity: 0.12; font-size: 3rem; font-family: var(--font-display); font-weight: 800; line-height: 1;">A</div>
+                    <div class="desc" style="position: relative; z-index: 1;">
+                        <div class="reveal-fade" style="font-size: 0.6rem; color: var(--accent); text-transform: uppercase; font-weight: 700; letter-spacing: 2px; margin-bottom: var(--space-xxs);">Fase 1 • Perencanaan</div>
+                        <h3 class="reveal-fade" style="font-size: clamp(0.85rem, 1.4vw, 0.95rem); color: var(--text-primary); margin: 0 0 var(--space-xxs) 0;">Analisis Kebutuhan & Pemetaan Proses Bisnis</h3>
+
+                    </div>
+                </div>
+
+                <div class="secondary-stat reveal-scale" style="border-left-width: 4px; border-left-color: var(--warning); background: rgba(251, 191, 36, 0.05); padding: var(--space-md) var(--space-lg); transition-delay: 0.16s; position: relative;">
+                    <div class="reveal-fade" style="position: absolute; right: var(--space-lg); top: var(--space-md); opacity: 0.12; color: var(--warning); font-size: 3rem; font-family: var(--font-display); font-weight: 800; line-height: 1;">B</div>
+                    <div class="desc" style="position: relative; z-index: 1;">
+                        <div class="reveal-fade" style="font-size: 0.6rem; color: var(--warning); text-transform: uppercase; font-weight: 700; letter-spacing: 2px; margin-bottom: var(--space-xxs);">Fase 2 • Eksekusi Teknis</div>
+                        <h3 class="reveal-fade" style="font-size: clamp(0.85rem, 1.4vw, 0.95rem); color: var(--text-primary); margin: 0 0 var(--space-xxs) 0;">Pengembangan & Testing Secara End-to-End</h3>
+
+                    </div>
+                </div>
+
+                <div class="secondary-stat reveal-scale" style="border-left-width: 4px; border-left-color: var(--accent); background: rgba(45, 212, 191, 0.03); padding: var(--space-md) var(--space-lg); transition-delay: 0.24s; position: relative;">
+                    <div class="reveal-fade" style="position: absolute; right: var(--space-lg); top: var(--space-md); opacity: 0.12; font-size: 3rem; font-family: var(--font-display); font-weight: 800; line-height: 1;">C</div>
+                    <div class="desc" style="position: relative; z-index: 1;">
+                        <div class="reveal-fade" style="font-size: 0.6rem; color: var(--accent); text-transform: uppercase; font-weight: 700; letter-spacing: 2px; margin-bottom: var(--space-xxs);">Fase 3 • Standardisasi</div>
+                        <h3 class="reveal-fade" style="font-size: clamp(0.85rem, 1.4vw, 0.95rem); color: var(--text-primary); margin: 0 0 var(--space-xxs) 0;">Penyusunan Pedoman Khusus & Tata Kelola (SOP)</h3>
+
+                    </div>
+                </div>
+
+                <div class="secondary-stat reveal-scale" style="border-left-width: 4px; border-left-color: var(--accent); background: rgba(45, 212, 191, 0.03); padding: var(--space-md) var(--space-lg); transition-delay: 0.32s; position: relative;">
+                    <div class="reveal-fade" style="position: absolute; right: var(--space-lg); top: var(--space-md); opacity: 0.12; font-size: 3rem; font-family: var(--font-display); font-weight: 800; line-height: 1;">D</div>
+                    <div class="desc" style="position: relative; z-index: 1;">
+                        <div class="reveal-fade" style="font-size: 0.6rem; color: var(--accent); text-transform: uppercase; font-weight: 700; letter-spacing: 2px; margin-bottom: var(--space-xxs);">Fase 4 • Difusi Pengetahuan</div>
+                        <h3 class="reveal-fade" style="font-size: clamp(0.85rem, 1.4vw, 0.95rem); color: var(--text-primary); margin: 0 0 var(--space-xxs) 0;">Sosialisasi Implementasi Platform ke Seluruh User</h3>
+
+                    </div>
+                </div>
+
+                <div class="secondary-stat reveal-scale" style="grid-column: 1 / -1; border-left-width: 4px; border-left-color: var(--accent); background: rgba(45, 212, 191, 0.03); padding: var(--space-md) var(--space-lg); transition-delay: 0.40s; position: relative;">
+                    <div class="reveal-fade" style="position: absolute; right: var(--space-lg); top: var(--space-md); opacity: 0.12; font-size: 3rem; font-family: var(--font-display); font-weight: 800; line-height: 1;">E</div>
+                    <div class="desc" style="position: relative; z-index: 1;">
+                        <div class="reveal-fade" style="font-size: 0.6rem; color: var(--accent); text-transform: uppercase; font-weight: 700; letter-spacing: 2px; margin-bottom: var(--space-xxs);">Fase 5 • Validasi Kinerja</div>
+                        <h3 class="reveal-fade" style="font-size: clamp(0.85rem, 1.4vw, 0.95rem); color: var(--text-primary); margin: 0 0 var(--space-xxs) 0;">Uji Coba Lapangan (Pilot) & Evaluasi Sistem</h3>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mc-footer">Rancangan Aktualisasi — Dika Laksana Gusta</div>
+    </section>
+
+     <script>
+        class SlidePresentation {
+            constructor() {
+                this.slides = document.querySelectorAll('.slide');
+                this.currentSlide = 0;
+                this.setupIntersectionObserver();
+                this.setupKeyboardNav();
+                this.setupNavDots();
+                this.setupHoverEffects();
+                setTimeout(() => {
+                    this.slides[0]?.classList.add('visible');
+                    this.updateActiveDot(0);
+                }, 100);
+            }
+
+            setupIntersectionObserver() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('visible');
+                            const index = Array.from(this.slides).indexOf(entry.target);
+                            this.currentSlide = index;
+                            this.updateActiveDot(index);
+                        }
+                    });
+                }, { threshold: 0.5, rootMargin: '-10% 0px -10% 0px' });
+                this.slides.forEach(slide => observer.observe(slide));
+            }
+
+            setupKeyboardNav() {
+                document.addEventListener('keydown', (e) => {
+                    if (['ArrowDown','ArrowRight','PageDown',' '].includes(e.key)) {
+                        if (this.currentSlide < this.slides.length - 1) {
+                            e.preventDefault();
+                            this.scrollToSlide(this.currentSlide + 1);
+                        }
+                    } else if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key)) {
+                        if (this.currentSlide > 0) {
+                            e.preventDefault();
+                            this.scrollToSlide(this.currentSlide - 1);
+                        }
+                    }
+                });
+            }
+
+            setupNavDots() {
+                const container = document.getElementById('navDots');
+                this.slides.forEach((_, i) => {
+                    const dot = document.createElement('div');
+                    dot.className = 'dot';
+                    dot.addEventListener('click', () => this.scrollToSlide(i));
+                    container.appendChild(dot);
+                });
+            }
+
+            setupHoverEffects() {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-4px)';
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0)';
+                    });
+                });
+
+                const secondaryStats = document.querySelectorAll('.secondary-stat');
+                secondaryStats.forEach(stat => {
+                    stat.addEventListener('mouseenter', () => {
+                        stat.style.transform = 'translateX(4px)';
+                    });
+                    stat.addEventListener('mouseleave', () => {
+                        stat.style.transform = 'translateX(0)';
+                    });
+                });
+            }
+
+            updateActiveDot(index) {
+                document.querySelectorAll('.dot').forEach((d, i) => {
+                    d.classList.toggle('active', i === index);
+                });
+            }
+
+            scrollToSlide(index) {
+                this.slides[index].scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => new SlidePresentation());
+    </script>
+</body>
+</html>
